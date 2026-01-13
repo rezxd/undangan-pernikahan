@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Spesial - o, Tuan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #c5a059;
+            --dark: #121212;
+            --light: #ffffff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Layar Pembuka (Overlay) */
+        #overlayer {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: 1s ease-in-out;
+        }
+
+        /* Konten Utama */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+        }
+
+        h1 { font-family: 'Great Vibes', cursive; font-size: 5rem; color: var(--gold); margin: 10px 0; }
+        h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 700; letter-spacing: 3px; }
+        
+        .content-section {
+            padding: 80px 20px;
+            text-align: center;
+            background: var(--dark);
+        }
+
+        .btn-open {
+            padding: 15px 40px;
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-open:hover {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+        }
+
+        .time-box {
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--gold);
+            padding: 20px;
+            min-width: 80px;
+            border-radius: 10px;
+        }
+
+        .time-box span { display: block; font-size: 2rem; font-weight: bold; color: var(--gold); }
+
+        footer { padding: 40px; font-size: 0.8rem; opacity: 0.6; }
+    </style>
+</head>
+<body>
+
+    <div id="overlayer">
+        <h3 data-aos="fade-down">MEMBANGUN & MENGHANCURKAN</h3>
+        <h2 style="margin: 20px 0;">Kepada Yth.<br><span id="nama-tamu" style="color: var(--gold);">Tamu Undangan</span></h2>
+        <p style="margin-bottom: 30px;">Kami Mengundang Anda dalam Perayaan Kami</p>
+        <button class="btn-open" onclick="mulaiUndangan()">Buka Undangan</button>
+    </div>
+
+    <section class="hero">
+        <h2 data-aos="fade-up">The Celebration of</h2>
+        <h1 data-aos="zoom-in">Andi & Rina</h1>
+        <p data-aos="fade-up" data-aos-delay="300">SABTU, 15 JULI 2026</p>
+    </section>
+
+    <section class="content-section">
+        <div data-aos="fade-up">
+            <h2 style="color: var(--gold);">Save The Date</h2>
+            <div class="countdown">
+                <div class="time-box"><span id="days">00</span>Hari</div>
+                <div class="time-box"><span id="hours">00</span>Jam</div>
+                <div class="time-box"><span id="mins">00</span>Menit</div>
+            </div>
+        </div>
+
+        <div data-aos="fade-right" style="margin-top: 50px;">
+            <h3>Lokasi Acara</h3>
+            <p>Gedung Raya Megah<br>Jl. Thamrin No. 01, Jakarta Pusat</p>
+            <button class="btn-open" style="font-size: 0.7rem;">Lihat Google Maps</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Crafted with ❤️ for Your Special Day</p>
+    </footer>
+
+    <audio id="myAudio" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000 });
+
+        // Fungsi Buka Undangan
+        function mulaiUndangan() {
+            document.getElementById("myAudio").play();
+            document.getElementById("overlayer").style.transform = "translateY(-100%)";
+            setTimeout(() => {
+                document.getElementById("overlayer").style.display = "none";
+            }, 1000);
+        }
+
+        // Ambil Nama dari URL (?to=Nama+Tamu)
+        const params = new URLSearchParams(window.location.search);
+        const tamu = params.get('to');
+        if (tamu) {
+            document.getElementById('nama-tamu').innerText = tamu;
+        }
+
+        // Countdown Logic
+        const weddingDate = new Date("July 15, 2026 09:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("mins").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        }, 1000);
+    </script>
+</body>
+</html>
